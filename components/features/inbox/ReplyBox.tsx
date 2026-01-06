@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { TONE_OPTIONS, QUICK_ACTIONS } from '@/lib/utils/constants';
+import { TONE_OPTIONS, QUICK_ACTIONS } from '@/lib/constants';
 import { Send, Sparkles } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 

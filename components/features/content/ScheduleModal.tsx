@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { schedulePostSchema, SchedulePostFormData } from '@/features/content/schemas/content.schema';
+import { schedulePostSchema } from '@/features/content/schemas/content.schema';
 import { useSchedulePost } from '@/features/content/hooks/useDrafts';
 import {
   Dialog,
@@ -37,7 +37,7 @@ export function ScheduleModal({ open, onOpenChange, draftId, pageId }: ScheduleM
   const {
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<SchedulePostFormData>({
+  } = useForm({
     resolver: zodResolver(schedulePostSchema),
   });
 

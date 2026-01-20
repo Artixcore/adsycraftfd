@@ -22,7 +22,12 @@ export function RegisterForm() {
   const registerMutation = useRegister();
 
   const onSubmit = async (data: RegisterFormData) => {
-    await registerMutation.mutateAsync(data);
+    try {
+      await registerMutation.mutateAsync(data);
+    } catch (error) {
+      // Error is already handled by onError callback, but this prevents uncaught rejection
+      console.error('Registration error:', error);
+    }
   };
 
   return (

@@ -60,6 +60,10 @@ class ApiClient {
   }
 
   private extractErrorMessage(error: AxiosError): string {
+    // Handle connection refused errors specifically
+    if (error.code === 'ECONNREFUSED' || error.message === 'Network Error' || !error.response) {
+      return 'Unable to connect to the backend server. Please ensure the backend is running on port 3000.';
+    }
     if (error.response?.data) {
       const data = error.response.data as any;
       return data.message || data.error || error.message || 'An error occurred';

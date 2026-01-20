@@ -11,7 +11,7 @@ export const createDraftSchema = z.object({
 export const schedulePostSchema = z.object({
   pageId: z.string().min(1, 'Page is required'),
   scheduledAt: z.string().datetime(),
-  timezone: z.string().default('UTC'),
+  timezone: z.string().optional(),
 });
 
 export type CreateDraftFormData = z.infer<typeof createDraftSchema>;

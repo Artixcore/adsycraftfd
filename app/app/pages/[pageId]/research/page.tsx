@@ -60,7 +60,7 @@ export default function ResearchPage() {
 
   const handleResearch = async () => {
     setIsResearching(true);
-    researchMutation.mutate();
+    researchMutation.mutate(undefined);
   };
 
   const formatPrice = (priceHints?: { min?: number; max?: number; currency?: string }) => {

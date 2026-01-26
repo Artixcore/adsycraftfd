@@ -27,7 +27,7 @@ export function MetaConnectCard() {
           accounts. You'll be redirected to Meta to authorize access.
         </p>
         <Button
-          onClick={() => connectMutation.mutate()}
+          onClick={() => connectMutation.mutate(undefined)}
           disabled={connectMutation.isPending}
           className="w-full gap-2"
         >

@@ -101,6 +101,7 @@ export function DraftEditor({ pageId, onSuccess }: DraftEditorProps) {
 
           <AIPanel
             content={content}
+            pageId={pageId}
             onContentGenerated={(generatedContent) => setValue('content', generatedContent)}
           />
 

@@ -3,10 +3,11 @@
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { FileText, MessageSquare, Megaphone } from 'lucide-react';
+import { FileText, MessageSquare, Megaphone, Search } from 'lucide-react';
 
 const tabs = [
   { name: 'Content', href: 'content', icon: FileText },
+  { name: 'Research', href: 'research', icon: Search },
   { name: 'Inbox', href: 'inbox', icon: MessageSquare },
   { name: 'Ads', href: 'ads', icon: Megaphone },
 ];

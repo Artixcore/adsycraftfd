@@ -5,27 +5,70 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Sparkles, RefreshCw, Hash } from 'lucide-react';
 import { toast } from 'sonner';
+import { apiClient } from '@/lib/api/client';
+import { endpoints } from '@/lib/api/endpoints';
 
 interface AIPanelProps {
   content: string;
   onContentGenerated: (content: string) => void;
+  pageId?: string;
 }
 
-export function AIPanel({ content, onContentGenerated }: AIPanelProps) {
+const LANGUAGES = [
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Spanish' },
+  { value: 'fr', label: 'French' },
+  { value: 'de', label: 'German' },
+  { value: 'it', label: 'Italian' },
+  { value: 'pt', label: 'Portuguese' },
+  { value: 'ja', label: 'Japanese' },
+  { value: 'ko', label: 'Korean' },
+  { value: 'zh', label: 'Chinese' },
+  { value: 'ar', label: 'Arabic' },
+];
+
+export function AIPanel({ content, onContentGenerated, pageId }: AIPanelProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [regenerateAngle, setRegenerateAngle] = useState('');
+  const [language, setLanguage] = useState('en');
 
   const handleGenerate = async () => {
+    if (!pageId) {
+      toast.error('Page ID is required');
+      return;
+    }
+
     setIsGenerating(true);
-    // Simulate AI generation - in production, call backend API
-    setTimeout(() => {
-      const generated = `AI-generated content based on your brand voice. This is a placeholder - integrate with your AI service.`;
-      onContentGenerated(generated);
+    try {
+      const response = await apiClient.post<{ success: boolean; data: { postCopy: string } }>(
+        endpoints.posts.generate,
+        {
+          pageId,
+          angle: 'Create engaging social media content',
+          language,
+        }
+      );
+
+      if (response.success && response.data?.postCopy) {
+        onContentGenerated(response.data.postCopy);
+        toast.success('Content generated!');
+      } else {
+        throw new Error('Invalid response from server');
+      }
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to generate content');
+    } finally {
       setIsGenerating(false);
-      toast.success('Content generated!');
-    }, 2000);
+    }
   };
 
   const handleRegenerate = async () => {
@@ -33,15 +76,35 @@ export function AIPanel({ content, onContentGenerated }: AIPanelProps) {
       toast.error('Please enter an angle or focus');
       return;
     }
+
+    if (!pageId) {
+      toast.error('Page ID is required');
+      return;
+    }
+
     setIsGenerating(true);
-    // Simulate AI regeneration
-    setTimeout(() => {
-      const regenerated = `AI-generated content with focus on: ${regenerateAngle}`;
-      onContentGenerated(regenerated);
+    try {
+      const response = await apiClient.post<{ success: boolean; data: { postCopy: string } }>(
+        endpoints.posts.generate,
+        {
+          pageId,
+          angle: regenerateAngle,
+          language,
+        }
+      );
+
+      if (response.success && response.data?.postCopy) {
+        onContentGenerated(response.data.postCopy);
+        setRegenerateAngle('');
+        toast.success('Content regenerated!');
+      } else {
+        throw new Error('Invalid response from server');
+      }
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to regenerate content');
+    } finally {
       setIsGenerating(false);
-      setRegenerateAngle('');
-      toast.success('Content regenerated!');
-    }, 2000);
+    }
   };
 
   const handleHashtags = async () => {
@@ -102,6 +165,22 @@ export function AIPanel({ content, onContentGenerated }: AIPanelProps) {
               <RefreshCw className="h-4 w-4" />
             </Button>
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="language">Language</Label>
+          <Select value={language} onValueChange={setLanguage}>
+            <SelectTrigger id="language">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {LANGUAGES.map((lang) => (
+                <SelectItem key={lang.value} value={lang.value}>
+                  {lang.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {isGenerating && (

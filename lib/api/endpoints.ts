@@ -27,6 +27,7 @@ export const endpoints = {
   posts: {
     list: '/posts',
     create: '/posts',
+    generate: '/posts/generate',
     schedule: (postId: string) => `/posts/${postId}/schedule`,
     publish: (postId: string) => `/posts/${postId}/publish`,
     history: '/posts/history',
@@ -53,5 +54,18 @@ export const endpoints = {
   // Activity
   activity: {
     list: '/activity',
+  },
+  // Research
+  research: {
+    research: (pageId: string) => `/research/${pageId}`,
+    getResults: (pageId: string) => `/research/${pageId}`,
+  },
+  // Brand Voice
+  brandVoice: {
+    list: '/brand-voice',
+    get: (pageId: string) => `/brand-voice/page/${pageId}`,
+    create: '/brand-voice',
+    update: (id: string) => `/brand-voice/${id}`,
+    delete: (id: string) => `/brand-voice/${id}`,
   },
 } as const;

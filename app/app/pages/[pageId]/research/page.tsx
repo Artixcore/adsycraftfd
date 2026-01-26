@@ -33,7 +33,7 @@ export default function ResearchPage() {
   const { data: researchResults, isLoading } = useQuery({
     queryKey: ['research', pageId],
     queryFn: async () => {
-      const response = await apiClient.get(`/research/${pageId}`);
+      const response = await apiClient.get<{ data: { data: ProductResearch[] } }>(`/research/${pageId}`);
       return response.data.data as ProductResearch[];
     },
     enabled: !!pageId,
@@ -42,7 +42,7 @@ export default function ResearchPage() {
   // Research mutation
   const researchMutation = useMutation({
     mutationFn: async (sources?: string[]) => {
-      const response = await apiClient.post(`/research/${pageId}`, {
+      const response = await apiClient.post<{ data: { data: ProductResearch[] } }>(`/research/${pageId}`, {
         sources: sources || ['posts', 'about', 'website', 'catalog', 'comments'],
       });
       return response.data.data as ProductResearch[];

@@ -1,4 +1,10 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api/v1';
+// Production: use https://api.adsycraft.com/api/v1 when app is on Netlify and API URL not set
+const isProductionNetlify =
+  typeof process.env.NEXT_PUBLIC_APP_URL === 'string' &&
+  process.env.NEXT_PUBLIC_APP_URL.includes('frontendadsy.netlify.app');
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (isProductionNetlify ? 'https://api.adsycraft.com/api/v1' : 'http://localhost:3000/api/v1');
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001';
 
 export const POST_TYPES = ['TEXT', 'IMAGE', 'VIDEO', 'CAROUSEL'] as const;

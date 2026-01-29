@@ -53,6 +53,16 @@ npm run build
 npm start
 ```
 
+### Deploying to Netlify
+
+Set these **Environment variables** in Netlify (Site → Environment variables):
+
+- **Production**
+  - `NEXT_PUBLIC_API_URL` = `https://api.adsycraft.com/api/v1` (backend API base including `/api/v1`)
+  - `NEXT_PUBLIC_APP_URL` = `https://frontendadsy.netlify.app` (or your Netlify site URL)
+
+If `NEXT_PUBLIC_API_URL` is not set, the app falls back to `https://api.adsycraft.com/api/v1` when `NEXT_PUBLIC_APP_URL` contains `frontendadsy.netlify.app`. Setting it explicitly is recommended. Redeploy after changing env vars.
+
 ## Project Structure
 
 ```

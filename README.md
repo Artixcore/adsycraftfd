@@ -63,6 +63,15 @@ Set these **Environment variables** in Netlify (Site → Environment variables):
 
 If `NEXT_PUBLIC_API_URL` is not set, the app falls back to `https://api.adsycraft.com/api/v1` when `NEXT_PUBLIC_APP_URL` contains `frontendadsy.netlify.app`. Setting it explicitly is recommended. Redeploy after changing env vars.
 
+### Deploying to DigitalOcean App Platform
+
+The frontend is deployed as a second service in the same app (see repo root `.do/app.yaml` and [DEPLOYMENT.md](../DEPLOYMENT.md)). Set these in the **frontend** component's environment variables in the DO Console (after first deploy):
+
+- `NEXT_PUBLIC_API_URL` = Backend API base URL including `/api/v1` (e.g. `https://<api-default-domain>/api/v1`)
+- `NEXT_PUBLIC_APP_URL` = **Must be the DigitalOcean-assigned frontend URL** (e.g. `https://<frontend-default-domain>.ondigitalocean.app`) — required for Meta callback and redirects
+
+Use scope **Build-time** or **Run and Build-time** for both so they are available during `npm run build`. Redeploy the frontend after changing these so the new values are baked in.
+
 ## Project Structure
 
 ```
@@ -156,7 +165,7 @@ The frontend communicates exclusively with the backend API. All API calls go thr
 
 ## Environment Variables
 
-See `.env.local.example` for required environment variables.
+See `.env.example` (or `.env.local.example` if present) for required variables: `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_APP_URL`.
 
 ## Testing
 
